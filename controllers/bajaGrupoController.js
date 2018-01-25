@@ -1,33 +1,27 @@
-var excel2json = require("excel-to-json");
-const upload = require('../config/upload')
-var fs = require("fs");
-
+const soap = require('soap');
+var parseString = require('xml2js').parseString;
 
 function index(req,res) {
   res.json({msj:'desde el controlador'})
 }
 
-function consultaRetus(req,res) {
-  req.pipe(req.busboy);
-  req.busboy.on('file', function (fieldname, file, filename) {
-    upload(req,res,function(err){
-      var error=0;
-      if(err){
-        res.json({err:true,descripcion:"fallo a"});
-        error++;
-      }
-      if(!file){
-        res.json({err:true,descripcion:"fallo b"});
-        error++;
-      }
-      if (error==0){
-        console.log("ok");
-
+function consultaSoap(req,res) {
+  let url = 'http://www.webservicex.com/globalweather.asmx?wsdl';
+  var args = req.body;
+  soap.createClient(url,function (err,client) {
+    client.GetCitiesByCountry(args,function (err,soapResult,body) {
+      if (err) {
+        res.json(err)
+      }else {
+        let xml = soapResult.GetCitiesByCountryResult;
+          parseString(xml, function (err, result) {
+          res.json(result)
+      })
       }
     })
   })
-};
+}
 
 
 
-  module.exports = {index,consultaRetus};
+  module.exports = {index,consultaSoap};

@@ -1,8 +1,11 @@
 const soap = require('soap');
-var parseString = require('xml2js').parseString;
+const xml2js = require('xml2js');
 
 function index(req,res) {
-  res.json({msj:'desde el controlador'})
+    let  obj  = { nombre : " Super " ,  Apellido : " Hombre " ,  edad : 23 } ;
+    let builder = new xml2js.Builder();
+    let xml = builder.buildObject(obj);
+    res.send(xml);
 }
 
 function consultaSoap(req,res) {
@@ -14,14 +17,16 @@ function consultaSoap(req,res) {
         res.json(err)
       }else {
         let xml = soapResult.GetCitiesByCountryResult;
-          parseString(xml, function (err, result) {
-          res.json(result)
-      })
+        xml2js.parseString(xml, function (err, result) {
+          let data = result.NewDataSet.Table;
+          for (var i = 0; i < data.length; i++) {
+            console.log("Country: " + data[i].Country + " City: " + data[i].City);
+          }
+          res.json(data)
+        })
       }
     })
   })
 }
-
-
 
   module.exports = {index,consultaSoap};

@@ -20,6 +20,10 @@ app.use(function (req, res, next) {
 const baja_grupo = require('./routes/baja_grupo')
 app.use('/baja_grupo',baja_grupo);
 
+app.get('/',function(req,res){
+        res.sendFile(__dirname + "/index.html");
+    });
+
 app.listen(config.port,function(){
   console.log("listen in :: " + config.port);
 })

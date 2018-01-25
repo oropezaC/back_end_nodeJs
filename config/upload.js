@@ -1,24 +1,23 @@
 const multer = require('multer')
 const path = require ('path');
 
-var storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-		console.log("archivo",file);
-
-		cb(null, './uploads')
-	},
-	filename: 'archivo'
-});
-
-var upload = multer({
-  storage: storage,
-  fileFilter : function(req, file, callback) {
-    var ext = path.extname(file.originalname);
-    if(ext !== '.xlsx') {
-      return callback(new Error('Wrong extension type'))
-    }
-    callback(null, true);
-  }
-}).single('file');
+let storage = multer.diskStorage({
+        destination: function (req, file, cb) {
+            cb(null, './upload/')
+        },
+        filename: function (req, file, cb) {
+            let datetimestamp = Date.now();
+            cb(null, file.fieldname + '-' + datetimestamp + '.' + file.originalname.split('.')[file.originalname.split('.').length -1])
+        }
+    });
+    let upload = multer({
+                    storage: storage,
+                    fileFilter : function(req, file, callback) {
+                        if (['xls', 'xlsx'].indexOf(file.originalname.split('.')[file.originalname.split('.').length-1]) === -1) {
+                            return callback(new Error('Error de Extension'));
+                        }
+                        callback(null, true);
+                    }
+                }).single('file');
 
 module.exports = upload;

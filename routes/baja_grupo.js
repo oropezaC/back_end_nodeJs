@@ -5,6 +5,6 @@ let router = express.Router();
 
 router.route('/')
   .get(bajaGrupoCtrl.index)
-  .post(bajaGrupoCtrl.consultaSoap)
+  .post(bajaGrupoCtrl.carga)
 
 module.exports = router;

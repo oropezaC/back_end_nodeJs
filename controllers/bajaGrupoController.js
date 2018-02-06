@@ -58,7 +58,8 @@ function index(req,res) {
 
 function consultaSoap(req,res) {
   let args = req.body;
-  helpers.ejecutaServicio()
+  console.log("args");
+  helpers.ejecutaServicio(args)
   // .then((result) => {
   //   // console.log(result.data);
   //   res.json(result.data)

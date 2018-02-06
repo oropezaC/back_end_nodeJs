@@ -25,39 +25,66 @@ function jsonXml(body) {
 //   })
 // }
 
-function ejecutaServicio() {
-  var xmlhttp = new XMLHttpRequest();
-  xmlhttp.open('POST', 'http://191.9.3.34:9085/telcel-ws-web-1.0.0-Telcel-01/services/ControlWebService', true);
-  xmlhttp.onreadystatechange = function () {
-    console.log("onreadystatechange ");
-    if (xmlhttp.readyState == 4) {
-      if (xmlhttp.status == 200) {
-        console.log('done. use firebug/console to see network response');
-      }
-    }
-  }
-  // Send the POST request
-  xmlhttp.setRequestHeader('Content-Type', 'text/xml');
-  let uri = xmlhttp.send(xml);
-  console.log("aqui",uri);
+function ejecutaServicio(d) {
+let xml = '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="http://servicios.web.m2k.sds.telcel.com">\
+              <soapenv:Header/>\
+              <soapenv:Body>\
+              <ser:ejecutaServicio>\
+              <xml><![CDATA[<?xml version="1.0" encoding="ISO-8859-1"?><Request><user>'+d.Request.user+'</user><region>'+d.Request.region+'</region>\
+                <function>'+d.Request.function+'</function><action>'+d.Request.action+'</action>\
+                <inputParameters><servicio><p01telefono longitud="10">'+d.Request.inputParameters.servicio.p01telefono+'</p01telefono></servicio>\
+                </inputParameters>\
+                </Request>\
+              ]]></xml>\
+              </ser:ejecutaServicio>\
+            </soapenv:Body>\
+          </soapenv:Envelope>';
+
+console.log("aquiiiii",xml);
+
+
+  // var xmlhttp = new XMLHttpRequest();
+  //
+  // return new Promise((resolve,reject)=>{
+  //   xmlhttp.open('POST', 'http://191.9.3.34:9085/telcel-ws-web-1.0.0-Telcel-01/services/ControlWebService', true);
+  //   xmlhttp.onreadystatechange = function () {
+  //     console.log("onreadystatechange ");
+  //     if (xmlhttp.readyState == 4) {
+  //       console.log("ok");
+  //       if (xmlhttp.status == 200) {
+  //         console.log('done. use firebug/console to see network response');
+  //       }
+  //     }
+  //   }
+    // Send the POST request
+    // xmlhttp.setRequestHeader('Content-Type', 'text/xml');
+    // xmlhttp.send(xml);
+    // xmlhttp.send(xml,function (err,result) {
+    //   if (!err) {
+    //     console.log(result);
+    //     console.log("aqui",uri);
+    //   }else {
+    //     console.log("fuck",err);
+    //   }
+    // });
+  // })
 
 }
 
 
-
-let xml = '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="http://servicios.web.m2k.sds.telcel.com">\
-            <soapenv:Header/>\
-            <soapenv:Body>\
-            <ser:ejecutaServicio>\
-            <xml><![CDATA[<?xml version="1.0" encoding="ISO-8859-1"?><Request><user>VI9M2KW</user><region>I</region>\
-              <function>I*15</function><action>C</action>\
-              <inputParameters><servicio><p01telefono longitud="10">5554220502</p01telefono></servicio>\
-              </inputParameters>\
-              </Request>\
-            ]]></xml>\
-            </ser:ejecutaServicio>\
-          </soapenv:Body>\
-        </soapenv:Envelope>';
+// let xml = '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="http://servicios.web.m2k.sds.telcel.com">\
+//             <soapenv:Header/>\
+//             <soapenv:Body>\
+//             <ser:ejecutaServicio>\
+//             <xml><![CDATA[<?xml version="1.0" encoding="ISO-8859-1"?><Request><user>VI9M2KW</user><region>I</region>\
+//               <function>I*15</function><action>C</action>\
+//               <inputParameters><servicio><p01telefono longitud="10">5554220502</p01telefono></servicio>\
+//               </inputParameters>\
+//               </Request>\
+//             ]]></xml>\
+//             </ser:ejecutaServicio>\
+//           </soapenv:Body>\
+//         </soapenv:Envelope>';
 
 module.exports = {
   jsonXml,ejecutaServicio

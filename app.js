@@ -5,6 +5,8 @@ const config = require('./config/conf')
 const path = require('path');
 const app = express();
 
+Promise = require('bluebird');
+
 app.use(busboy());
 app.use(bodyParser.json());
 app.use(bodyParser());
@@ -20,10 +22,10 @@ app.use(function (req, res, next) {
 const baja_grupo = require('./routes/baja_grupo')
 app.use('/baja_grupo',baja_grupo);
 
-app.get('/',function(req,res){
+app.get('/',(req,res)=>{
         res.sendFile(__dirname + "/index.html");
     });
 
-app.listen(config.port,function(){
+app.listen(config.port,()=>{
   console.log("listen in :: " + config.port);
 })

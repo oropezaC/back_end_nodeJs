@@ -1,6 +1,9 @@
 const multer = require('multer')
 const path = require ('path');
 
+const xlstojson  = require('xls-to-json-lc');
+const xlsxtojson = require('xlsx-to-json-lc');
+
 let storage = multer.diskStorage({
         destination: function (req, file, cb) {
             cb(null, './upload/')
@@ -20,4 +23,5 @@ let storage = multer.diskStorage({
                     }
                 }).single('file');
 
-module.exports = upload;
+
+module.exports = upload

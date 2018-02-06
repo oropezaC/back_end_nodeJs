@@ -1,13 +1,14 @@
-const soap = require('soap');
-const xml2js = require('xml2js');
-
+const helpers = require('../modules/helpers')
 // excel
 const upload = require('../config/upload')
 const xlstojson  = require('xls-to-json-lc');
 const xlsxtojson = require('xlsx-to-json-lc');
 const multer = require('multer')
 
-function carga(req,res) {
+
+let data = []
+
+function carga(req,res,next) {
   var exceltojson;
   upload(req,res,function(err){
     if(err){
@@ -18,7 +19,6 @@ function carga(req,res) {
       res.json({error_code:1,err_desc:"No file passed"});
       return;
     }
-
     if(req.file.originalname.split('.')[req.file.originalname.split('.').length-1] === 'xlsx'){
       exceltojson = xlsxtojson;
     } else {
@@ -33,7 +33,10 @@ function carga(req,res) {
         if(err) {
           return res.json({error_code:1,err_desc:err, data: null});
         }
-        res.json({data: result});
+        // res.json({data: result});
+        data.push(result)
+        // console.log(result);
+        next();
       });
     } catch (e){
       res.json({error_code:1,err_desc:"Corupted excel file"});
@@ -41,35 +44,27 @@ function carga(req,res) {
   })
 }
 
-function index(req,res) {
-  // let  obj  = { nombre : " Super " ,  Apellido : " Hombre " ,  edad : 23 } ;
-  // let builder = new xml2js.Builder();
-  // let xml = builder.buildObject(obj);
-  // res.send(xml);
-
-
+function validParams(req,res) {
+  console.log("data xls",data);
+  console.log("result soap", soapR[0].length);
 }
+
+function index(req,res) {
+  let  obj  = { nombre : " Super " ,  Apellido : " Hombre " ,  edad : 23 } ;
+  let data = helpers.jsonXml(obj)
+  res.send(data);
+}
+
 
 function consultaSoap(req,res) {
-  let url = 'http://www.webservicex.com/globalweather.asmx?wsdl';
-  var args = req.body;
-  soap.createClient(url,function (err,client) {
-    client.GetCitiesByCountry(args,function (err,soapResult,body) {
-      if (err) {
-        res.json(err)
-      }else {
-        let xml = soapResult.GetCitiesByCountryResult;
-        xml2js.parseString(xml, function (err, result) {
-          let data = result.NewDataSet.Table;
-          for (var i = 0; i < data.length; i++) {
-            console.log("Country: " + data[i].Country + " City: " + data[i].City);
-          }
-          res.json(data)
-        })
-      }
-    })
-  })
+  let args = req.body;
+  helpers.ejecutaServicio()
+  // .then((result) => {
+  //   // console.log(result.data);
+  //   res.json(result.data)
+  // }).catch((err)=>{
+  //   res.json(err)
+  // })
 }
 
-// consultaSoap
-module.exports = {index,carga};
+module.exports = {index,carga,validParams,consultaSoap};

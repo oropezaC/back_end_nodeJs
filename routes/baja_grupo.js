@@ -1,13 +1,9 @@
-const bajaGrupoCtrl = require('../controllers/bajaGrupoController')
+const bajaGroupCtrl = require('../controllers/bajaGrupocontroller')
 const express = require('express')
 let router = express.Router();
 
-
 router.route('/')
-  .get(bajaGrupoCtrl.index)
-  .post(
-    // bajaGrupoCtrl.carga,
-    bajaGrupoCtrl.consultaSoap)
-    // bajaGrupoCtrl.validParams)
+  .post(bajaGroupCtrl.bajaGroup)
+
 
 module.exports = router;

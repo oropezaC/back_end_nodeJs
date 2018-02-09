@@ -78,7 +78,10 @@ function consultaRetusBja(req,res) {
     .then((result)=>{
       helpers.cleanResultConsulta(result)
       .then((result)=>{
-        res.json(result)
+        helpers.xmlJson(result)
+        .then((result)=>{
+          res.json(result)
+        })
       })
     })
   })

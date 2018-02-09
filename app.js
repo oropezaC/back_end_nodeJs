@@ -21,9 +21,11 @@ app.use(function (req, res, next) {
 
 const cslt_retus = require('./routes/restus_consultaBaja')
 const bajaGroup = require('./routes/baja_grupo')
+const clt_plan = require('./routes/consulta_plan')
 
 app.use('/consulta_bajaGrooup',cslt_retus);
 app.use('/baja_grupo',bajaGroup);
+app.use('/consulta_plan',clt_plan);
 
 app.get('/',(req,res)=>{
         res.sendFile(__dirname + "/index.html");

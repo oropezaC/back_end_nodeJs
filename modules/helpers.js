@@ -30,10 +30,10 @@ function xmlJson(body) {
   return new Promise((resolve,reject)=>{
     parser.parseString(body, function (err, result) {
       if (!err) {
-        console.log("transformacion xml to json :: Correcta");
+        // console.log("transformacion xml to json :: Correcta");
         resolve(result)
       }else {
-        console.log("transformacion xml to json :: Fallida");
+        // console.log("transformacion xml to json :: Fallida");
         resolve(err)
       }
     })
@@ -55,18 +55,24 @@ function verificarEstatus(data) {
   let rtn = {}
   return new Promise((resolve, reject) => {
     if (data.RespuestaOK != undefined) {
+      // console.log(data);
         rtn.estatus = data.RespuestaOK.ESTATUS[0]._;
         rtn.idpeticion = data.RespuestaOK.ESTATUS[0].$.IDPETICION;
         rtn.mensaje = data.RespuestaOK.MENSAJE[0];
-        rtn.errores = data.RespuestaOK.Errores[0];
-        rtn.ciclo = data.RespuestaOK.CicloFact[0];
-        rtn.estatusNumero = data.RespuestaOK.EstatusNumero[0];
+        data.RespuestaOK.Errores != undefined ? rtn.errores = data.RespuestaOK.Errores[0] : false;
+        data.RespuestaOK.CicloFact != undefined ? rtn.ciclo = data.RespuestaOK.CicloFact[0] : false;
+        data.RespuestaOK.EstatusNumero != undefined ? rtn.estatusNumero = data.RespuestaOK.EstatusNumero[0] : false;
         rtn.linea = data.linea
+        // console.log("por que vergas esto aqui",rtn);
         resolve(rtn)
     }else {
       if (data.RespuestaError.ESTATUS[0]._ == "FALLIDO") {
+        // console.log(data);
           rtn.estatus = data.RespuestaError.ESTATUS[0]._;
-          rtn.mensaje = data.RespuestaError.MENSAJE[0];
+          // rtn.mensaje = data.RespuestaError.MENSAJE[0];
+          data.RespuestaError.MENSAJE != undefined ? rtn.mensaje = data.RespuestaError.MENSAJE[0] : false
+          data.RespuestaError.DESCRIPCIONERROR != undefined ? rtn.descripcion = data.RespuestaError.DESCRIPCIONERROR[0] : false
+          data.RespuestaError.RETURNCODE != undefined ? rtn.returncode = data.RespuestaError.RETURNCODE[0] : false
           rtn.linea = data.linea
         resolve(rtn)
       }

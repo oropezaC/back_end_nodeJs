@@ -31,10 +31,10 @@ function consultaRetus(d) {
         xmlhttp.onload =  function () {
           var res = xmlhttp.responseText;
           if (res) {
-            console.log("webservice retus consulta :: exito")
+            // console.log("webservice retus consulta :: exito")
             resolve(res)
           }else {
-            console.log("webservice retus consulta :: fallido");
+            // console.log("webservice retus consulta :: fallido");
             resolve(res)
           }
         }
@@ -47,20 +47,21 @@ function consultaRetus(d) {
 }
 
 function bajaGroup(d) {
+  // console.log("servicio baja de grupo",d);
   let xml = '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="http://servicios.web.m2k.sds.telcel.com">'+
   '<soapenv:Header/>'+
   '<soapenv:Body>'+
   '<ser:ejecutaServicio>'+
   '<xml><![CDATA[<?xml version="1.0" encoding="ISO-8859-1"?>'+
   '<Request>'+
-  '<user>'+d.Request.user+'</user>'+
-  '<region>'+d.Request.region+'</region>'+
-  '<function>'+d.Request.function+'</function>'+
-  '<action>'+d.Request.action+'</action>'+
+  '<user>'+d.user+'</user>'+
+  '<region>'+d.region+'</region>'+
+  '<function>'+d.function+'</function>'+
+  '<action>'+d.action+'</action>'+
   '<inputParameters>'+
   '<actualiza>'+
-  '<p01accion longitud="15">'+d.Request.inputParameters.actualiza.p01accion+'</p01accion>'+
-  '<p02parametros longitud="138">'+d.Request.inputParameters.actualiza.p02parametros+'</p02parametros>'+
+  '<p01accion longitud="15">'+d.p01accion+'</p01accion>'+
+  '<p02parametros longitud="138">'+d.parametros+'</p02parametros>'+
   '</actualiza>'+
   '</inputParameters>'+
   '</Request>'+
@@ -76,10 +77,10 @@ function bajaGroup(d) {
         xmlhttp.onload =  function () {
           var res = xmlhttp.responseText;
           if (res) {
-            console.log("webservice baja grupo:: exito")
+            // console.log("webservice baja grupo:: exito")
             resolve(res)
           }else {
-            console.log("webservice baja grupo :: fallido");
+            // console.log("webservice baja grupo :: fallido");
             resolve(res)
           }
         }

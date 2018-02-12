@@ -4,7 +4,8 @@ const router = express.Router();
 
 
 router.route('/')
-  .post(consultaPlanCtrl.consultaPlan,consultaPlanCtrl.conversion)
+  .post( consultaPlanCtrl.consultaPlan,
+         consultaPlanCtrl.conversion)
 
 
 module.exports = router;

@@ -19,13 +19,18 @@ app.use(function (req, res, next) {
 	next();
 });
 
-const cslt_retus = require('./routes/restus_consultaBaja')
-const bajaGroup = require('./routes/baja_grupo')
-const clt_plan = require('./routes/consulta_plan')
+const valida_layout = require('./routes/valida_layout')
+app.use('/layout',valida_layout)
 
-app.use('/consulta_bajaGrooup',cslt_retus);
+const cslt_retus = require('./routes/restus_consultaBaja');
+app.use('/consulta_bajaGroup',cslt_retus);
+
+const bajaGroup = require('./routes/baja_grupo');
 app.use('/baja_grupo',bajaGroup);
+
+const clt_plan = require('./routes/consulta_plan');
 app.use('/consulta_plan',clt_plan);
+
 
 app.get('/',(req,res)=>{
         res.sendFile(__dirname + "/index.html");

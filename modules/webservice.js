@@ -9,13 +9,13 @@ function consultaRetus(d) {
   '<ser:ejecutaServicio>'+
   '<xml><![CDATA[<?xml version="1.0" encoding="ISO-8859-1"?>'+
   '<Request>'+
-  '<user>'+d.Request.user+'</user>'+
-  '<region>'+d.Request.region+'</region>'+
-  '<function>'+d.Request.function+'</function>'+
-  '<action>'+d.Request.action+'</action>'+
+  '<user>'+d.user+'</user>'+
+  '<region>'+d.region+'</region>'+
+  '<function>'+d.function+'</function>'+
+  '<action>'+d.action+'</action>'+
   '<inputParameters>'+
   '<servicio>'+
-  '<p01telefono longitud="10">'+d.Request.inputParameters.servicio.p01telefono+'</p01telefono>'+
+  '<p01telefono longitud="10">'+d.linea+'</p01telefono>'+
   '</servicio>'+
   '</inputParameters>'+
   '</Request>'+

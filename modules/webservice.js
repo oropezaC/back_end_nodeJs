@@ -31,10 +31,10 @@ function consultaRetus(d) {
         xmlhttp.onload =  function () {
           var res = xmlhttp.responseText;
           if (res) {
-            // console.log("webservice retus consulta :: exito")
+            console.log("webservice retus consulta :: exito")
             resolve(res)
           }else {
-            // console.log("webservice retus consulta :: fallido");
+            console.log("webservice retus consulta :: fallido");
             resolve(res)
           }
         }
@@ -77,10 +77,10 @@ function bajaGroup(d) {
         xmlhttp.onload =  function () {
           var res = xmlhttp.responseText;
           if (res) {
-            // console.log("webservice baja grupo:: exito")
+            console.log("webservice baja grupo:: exito")
             resolve(res)
           }else {
-            // console.log("webservice baja grupo :: fallido");
+            console.log("webservice baja grupo :: fallido");
             resolve(res)
           }
         }
@@ -99,19 +99,19 @@ function consultaPlan(d) {
   '<ser:ejecutaServicio>'+
   '<xml><![CDATA[<?xml version="1.0" encoding="ISO-8859-1"?>'+
   '<Request>'+
-  '<user>'+d.Request.user+'</user>'+
-  '<region>'+d.Request.region+'</region>'+
-  '<function>'+d.Request.function+'</function>'+
-  '<action>'+d.Request.action+'</action>'+
+  '<user>'+d.user+'</user>'+
+  '<region>'+d.region+'</region>'+
+  '<function>'+d.function+'</function>'+
+  '<action>'+d.action+'</action>'+
   '<inputParameters>'+
   '<servicio>'+
-  '<p01telefono longitud="10">'+d.Request.inputParameters.servicio.p01telefono+'</p01telefono>'+
-  '<p02planTarifario longitud="05">'+d.Request.inputParameters.servicio.p02planTarifario+'</p02planTarifario>'+
-  '<p03fechaEfectivaPlan longitud="8">'+d.Request.inputParameters.servicio.p03fechaEfectivaPlan+'</p03fechaEfectivaPlan>'+
-  '<p06distribuidorAdenum longitud="09">'+d.Request.inputParameters.servicio.p06distribuidorAdenum+'</p06distribuidorAdenum>'+
-  '<p07motivo longitud="05">'+d.Request.inputParameters.servicio.p07motivo+'</p07motivo>'+
-  '<p08bonificacionSN longitud="01">'+d.Request.inputParameters.servicio.p08bonificacionSN+'</p08bonificacionSN>'+
-  '<p09bonificacionPje longitud="03">'+d.Request.inputParameters.servicio.p09bonificacionPje+'</p09bonificacionPje>'+
+  '<p01telefono longitud="10">'+d.linea+'</p01telefono>'+
+  '<p02planTarifario longitud="05">'+d.planActl+'</p02planTarifario>'+
+  '<p03fechaEfectivaPlan longitud="8">'+d.fecha+'</p03fechaEfectivaPlan>'+
+  '<p06distribuidorAdenum longitud="09">'+d.dist+'</p06distribuidorAdenum>'+
+  '<p07motivo longitud="05">'+d.mtv+'</p07motivo>'+
+  '<p08bonificacionSN longitud="01">'+d.bn+'</p08bonificacionSN>'+
+  '<p09bonificacionPje longitud="03">'+d.bonificacion+'</p09bonificacionPje>'+
   '</servicio>'+
   '</inputParameters>'+
   '</Request>'+

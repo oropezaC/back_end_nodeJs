@@ -9,7 +9,6 @@ function consultaPlan(req,res) {
   let dist = "POLANCO"
   let mtv = "CAPPR"
   let bn = "S"
-  // console.log(data);
   Promise.each(data,(item)=>{
     return new Promise(function(resolve, reject) {
       item.user = "VI9M2KW";

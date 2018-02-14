@@ -54,7 +54,6 @@ function cleanResultConsulta(data) {
 function verificarEstatus(data) {
   let rtn = {}
   return new Promise((resolve, reject) => {
-    // console.log(data);
     if (data.RespuestaOK != undefined) {
         rtn.estatus = data.RespuestaOK.ESTATUS[0]._;
         rtn.idpeticion = data.RespuestaOK.ESTATUS[0].$.IDPETICION;
@@ -65,7 +64,6 @@ function verificarEstatus(data) {
         data.RespuestaOK.MontoPagar != undefined ? rtn.MontoPagar = data.RespuestaOK.MontoPagar[0] : false;
         data.RespuestaOK.CuotaCambioPlan != undefined ? rtn.CuotaCambioPlan = data.RespuestaOK.CuotaCambioPlan[0] : false;
         rtn.linea = data.linea
-        // resolve(rtn)
         resolve(rtn)
 
     }else {
@@ -81,10 +79,41 @@ function verificarEstatus(data) {
   })
 }
 
+function documentVlid(data,doc) {
+  let correctos = []
+  let fallidos = []
+  return new Promise(function(resolve, reject) {
+    if (doc[0] === "B") {
+      let tipo = "tipo de grupo"
+      let prod = "producto agenda"
+      let linea = "línea"
+      data.forEach((data)=>{
+        data.comentarios == "" || data.línea == "" || data[tipo] == "" ||
+        data[prod] == "" || data[linea].length < 10 ? fallidos.push(data) : correctos.push(data);
+      })
+      resolve({proceso:"Baja de Grupo",correcto:correctos,fallido:fallidos})
+    }if (doc[0] === "C" ) {
+      let plnAct= "plan actual";
+      let plnNw = "plan nuevo";
+      let linea = "línea"
+      let bonificacion = "Bonificación";
+      data.forEach((data)=>{
+        data.comentarios == " " || data.línea == " " || data[plnAct] == " " || data[plnAct].length < 5 ||
+        data[plnNw] == " " || data[plnNw].length < 5 ||  data[linea].length < 10 ||
+        data[bonificacion] == " " ? fallidos.push(data) : correctos.push(data);
+      })
+      resolve({proceso:"Cambio de Plan",correcto:correctos,fallido:fallidos})
+    } else {
+      resolve({proceso:"Proceso No Identificado"})
+    }
+  })
+}
+
 module.exports = {
   jsonXml,
   xmlJson,
   cleanResultConsulta,
   verificarEstatus,
-  returnData
+  returnData,
+  documentVlid
 };

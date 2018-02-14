@@ -2,13 +2,11 @@ const upload = require('../config/upload')
 const xlstojson  = require('xls-to-json-lc');
 const xlsxtojson = require('xlsx-to-json-lc');
 const multer = require('multer')
+const helpers = require('../modules/helpers')
 
-
-let data = []
-let correctos = []
-let fallidos = []
 
 function layoutBajaGrupo(req,res) {
+  let data = []
   var exceltojson;
   upload(req,res,function(err){
     if(err){
@@ -25,6 +23,7 @@ function layoutBajaGrupo(req,res) {
       exceltojson = xlstojson;
     }
     try {
+      let doc = req.file.originalname.split('',1)
       exceltojson({
         input: req.file.path,
         output: null,
@@ -33,15 +32,11 @@ function layoutBajaGrupo(req,res) {
         if(err) {
           return res.json({error_code:1,err_desc:err, data: null});
         }
-        console.log(req.file.originalname);
-        data.push(result)
-        let d = data[0];
-        let tipo = "tipo de grupo"
-        let prod = "producto agenda:"
-        d.forEach((d)=>{
-        d.comentarios == "" || d.línea == "" || d[tipo] == "" || d[prod] == "" || d.línea.length < 10? fallidos.push(d) : correctos.push(d);
+        data = result
+        helpers.documentVlid(data,doc)
+        .then((result)=>{
+          res.json(result)
         })
-        res.json({correcto:correctos,fallido:fallidos})
       });
     } catch (e){
       res.json({error_code:1,err_desc:"Corupted excel file"});
